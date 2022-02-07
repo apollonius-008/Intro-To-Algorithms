@@ -1,7 +1,5 @@
 package com.sarit.peak_problem;
 
-import com.sarit.test_utility.TestUtility;
-
 public class Peak2D {
 
     public static int[] naive2DPeak(int[][] arr) {
