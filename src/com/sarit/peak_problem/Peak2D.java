@@ -17,7 +17,6 @@ public class Peak2D {
                 if (j + 1 < arr[i].length && arr[i][j + 1] > arr[i][j])
                     continue;
 
-
                 return new int[]{i, j};
             }
         }
