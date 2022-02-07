@@ -1,4 +1,4 @@
-package com.sarit.test_utility;
+package com.sarit.test;
 
 public interface AnyFunction {
 

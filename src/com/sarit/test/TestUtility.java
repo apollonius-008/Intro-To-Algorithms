@@ -1,7 +1,6 @@
-package com.sarit.test_utility;
+package com.sarit.test;
 
 import java.util.Scanner;
-import java.util.function.Function;
 
 public class TestUtility {
 
