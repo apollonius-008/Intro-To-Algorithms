@@ -1,6 +1,7 @@
 package com.sarit.peak_problem;
 
-import java.util.Arrays;
+import com.sarit.test_utility.TestUtility;
+import java.util.*;
 
 public class Peak1D {
 
@@ -32,7 +33,72 @@ public class Peak1D {
             return mid;
     }
 
+    public static int activeImplementation(int[] arr) {
+        return peak1D(arr, 0, arr.length - 1);
+    }
+
     public static void main(String[] args) {
+        long seed = 1000000;
+        Random r = new Random(seed);
+
+        testArrayOfSize1(r);
+        testArrayOfSize1(r);
+        testArrayOfSize1(r);
+        testArrayOfSize1(r);
+
+        testPeakIsInMid(r, 10);
+        testPeakIsInMid(r, 10);
+        testPeakIsInMid(r, 10);
+        testPeakIsInMid(r, 10000);
+        testPeakIsInMid(r, 10000);
+
+        int countTests = 100;
+        for (int i = 0; i < countTests; i++) {
+            testPeakBySettingPeak(r, 100000, r.nextInt(100000));
+        }
+
+        printExecutionTimeReport(r, 100000, 1000);
+    }
+
+    public static void testArrayOfSize1(Random r) {
         int[] arr = new int[1];
+        arr[0] = r.nextInt();
+        int peak = activeImplementation(arr);
+        assert peak == 0 : "0 must be the peak in array of length 1. Peak=" + peak + " .Array=" + Arrays.toString(arr);
+    }
+
+    public static void testPeakIsInMid(Random r, int size) {
+        int peak = (size - 1) / 2;
+        testPeakBySettingPeak(r, size, peak);
+    }
+
+    public static void testPeakBySettingPeak(Random r, int size, int peak) {
+        int[] arr = TestUtility.generateIntArrayInRange(size, r.nextInt(100), 1 + r.nextInt(99));
+        int upperBound = size * 100 + 1;
+        arr[peak] = upperBound;
+        int actualPeak = activeImplementation(arr);
+        assert peak == actualPeak || actualPeak == arr.length - 1 : "Array=" + Arrays.toString(arr) + ", Expected=" + peak + ", Actual=" + actualPeak;
+    }
+
+    private static void printExecutionTimeReport(Random r, int size, int numExecutions) {
+        long totalTime = 0, maxTime = Long.MIN_VALUE, minTime = Long.MAX_VALUE;
+
+        for (int i = 0; i < numExecutions; i++) {
+            int[] arr = TestUtility.generateIntArrayInRange(size, r.nextInt(100), 1 + r.nextInt(99));
+            int upperBound = size * 100 + 1;
+            int peak = r.nextInt(size);
+            arr[peak] = upperBound;
+
+            long time = TestUtility.elapsedTime(() -> activeImplementation(arr));
+
+            totalTime += time;
+            if (time > maxTime)
+                maxTime = time;
+            if (time < minTime)
+                minTime = time;
+        }
+
+        System.out.printf("ARRAY SIZE : %d NUM EXECUTION : %d%n", size, numExecutions);
+        System.out.printf("AVG TIME : %d ns, MAX TIME : %d ns, MIN TIME : %d ns%n", totalTime / numExecutions, maxTime, minTime);
     }
 }
