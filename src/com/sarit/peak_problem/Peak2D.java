@@ -2,7 +2,7 @@ package com.sarit.peak_problem;
 
 public class Peak2D {
 
-    public static int[] naive2DPeak(int[][] arr) {
+    public static Point2D naive2DPeak(int[][] arr) {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
 
@@ -15,14 +15,10 @@ public class Peak2D {
                 if (j + 1 < arr[i].length && arr[i][j + 1] > arr[i][j])
                     continue;
 
-                return new int[]{i, j};
+                return new Point2D(i, j);
             }
         }
 
-        return new int[]{-1, -1};
-    }
-
-    public static void main(String[] args) {
-
+        return null;
     }
 }
