@@ -4,10 +4,7 @@ import com.sarit.peak_problem.Peak2D;
 import com.sarit.peak_problem.Peak2DFunction;
 import com.sarit.peak_problem.Point2D;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Peak2DTest {
 
@@ -40,6 +37,7 @@ public class Peak2DTest {
     public static void main(String[] args) {
         Map<String, Peak2DFunction> functions = new HashMap<>();
         functions.put("NAIVE ITERATIVE ALGORITHM", Peak2D::naive2DPeak);
+        functions.put("GREEDY ASCENT ALGORITHM", Peak2D::greedyAscent2DPeak);
 
         functions.forEach((name, f) -> {
             long seed = 100000;
@@ -64,7 +62,9 @@ public class Peak2DTest {
             testMatrixWithSinglePeak(r, 1000, 1000, f);
             testMatrixWithSinglePeak(r, 1000, 1000, f);
 
+            System.out.println("######## " + name + " ########");
             printRunningTimeExecution(r, 1000, 1000, 10000, f);
+            System.out.println();
         });
     }
 }
