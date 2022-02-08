@@ -21,4 +21,28 @@ public class Peak2D {
 
         return null;
     }
+
+    public static Point2D greedyAscent2DPeak(int[][] matrix) {
+        int i = 0, j = 0, rows = matrix.length, cols = matrix[0].length;
+        boolean done = false;
+        while(!done) {
+            if (j + 1 < cols && matrix[i][j + 1] > matrix[i][j]) {
+                j = j + 1;
+            }
+            else if (i + 1 < rows && matrix[i + 1][j] > matrix[i][j]) {
+                i = i + 1;
+            }
+            else if (j - 1 >= 0 && matrix[i][j - 1] > matrix[i][j]) {
+                j = j - 1;
+            }
+            else if (i - 1 >= 0 && matrix[i - 1][j] > matrix[i][j]) {
+                i = i - 1;
+            }
+            else {
+                done = true;
+            }
+        }
+
+        return new Point2D(i, j);
+    }
 }
