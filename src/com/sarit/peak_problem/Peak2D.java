@@ -48,4 +48,26 @@ public class Peak2D {
         }
         return currentPoint;
     }
+
+    public static Point2D divideAndConquer(int[][] matrix, int sCol, int eCol) {
+        int midCol = (sCol + eCol) / 2;
+        int row = getMaxRowInCol(matrix, midCol);
+
+        if (midCol - 1 >= 0 && matrix[row][midCol - 1] > matrix[row][midCol])
+            return divideAndConquer(matrix, sCol, midCol - 1);
+        else if (midCol + 1 <= eCol && matrix[row][midCol + 1] > matrix[row][midCol])
+            return divideAndConquer(matrix, midCol + 1, eCol);
+        else
+            return new Point2D(row, midCol);
+    }
+
+    public static int getMaxRowInCol(int[][] matrix, int col) {
+        int maxRow = 0;
+        for (int i = 1; i < matrix.length; i++) {
+            if (matrix[maxRow][col] < matrix[i][col])
+                maxRow = i;
+        }
+
+        return maxRow;
+    }
 }

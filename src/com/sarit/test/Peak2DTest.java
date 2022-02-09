@@ -38,6 +38,7 @@ public class Peak2DTest {
         Map<String, Peak2DFunction> functions = new HashMap<>();
         functions.put("NAIVE ITERATIVE ALGORITHM", Peak2D::naive2DPeak);
         functions.put("GREEDY ASCENT ALGORITHM", Peak2D::greedyAscent2DPeak);
+        functions.put("DIVIDE AND CONQUER ALGORITHM", (matrix) -> Peak2D.divideAndConquer(matrix, 0, matrix[0].length - 1));
 
         functions.forEach((name, f) -> {
             long seed = 100000;
