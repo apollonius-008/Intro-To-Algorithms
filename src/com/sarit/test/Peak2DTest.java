@@ -21,7 +21,7 @@ public class Peak2DTest {
 
         for (int i = 0; i < numExecutions; i++) {
             Point2D peak = new Point2D(r.nextInt(rows), r.nextInt(cols));
-            int[][] matrix = TestUtility.generateMatrixWithSinglePeak(rows, cols, peak, r.nextInt(Integer.MAX_VALUE));
+            int[][] matrix = TestUtility.generateMatrixWithSinglePeak(rows, cols, peak, r.nextInt());
 
             long time = TestUtility.elapsedTime(() -> f.execute(matrix));
             totalTime += time;
