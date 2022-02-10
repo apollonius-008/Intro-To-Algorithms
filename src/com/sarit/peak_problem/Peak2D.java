@@ -8,6 +8,20 @@ public class Peak2D {
         return matrix[p.x][p.y];
     }
 
+    public static boolean isPointPeak(Point2D p, int[][] matrix) {
+        int rows = matrix.length, cols = matrix[0].length;
+        if (p.x - 1 >= 0 && matrix[p.x - 1][p.y] > matrix[p.x][p.y])
+            return false;
+        else if (p.x + 1 < cols && matrix[p.x + 1][p.y] > matrix[p.x][p.y])
+            return false;
+        else if (p.y - 1 >= 0 && matrix[p.x][p.y - 1] > matrix[p.x][p.y])
+            return false;
+        else if (p.y + 1 < cols && matrix[p.x][p.y + 1] > matrix[p.x][p.y])
+            return false;
+        else
+            return true;
+    }
+
     public static Point2D naive2DPeak(int[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
@@ -47,5 +61,27 @@ public class Peak2D {
             }
         }
         return currentPoint;
+    }
+
+    public static Point2D divideAndConquer(int[][] matrix, int sCol, int eCol) {
+        int midCol = (sCol + eCol) / 2;
+        int row = getMaxRowInCol(matrix, midCol);
+
+        if (midCol - 1 >= sCol && matrix[row][midCol - 1] > matrix[row][midCol])
+            return divideAndConquer(matrix, sCol, midCol - 1);
+        else if (midCol + 1 <= eCol && matrix[row][midCol + 1] > matrix[row][midCol])
+            return divideAndConquer(matrix, midCol + 1, eCol);
+        else
+            return new Point2D(row, midCol);
+    }
+
+    public static int getMaxRowInCol(int[][] matrix, int col) {
+        int maxRow = 0;
+        for (int i = 1; i < matrix.length; i++) {
+            if (matrix[maxRow][col] < matrix[i][col])
+                maxRow = i;
+        }
+
+        return maxRow;
     }
 }

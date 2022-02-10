@@ -1,9 +1,8 @@
 package com.sarit.test;
 
-import com.sarit.peak_problem.Peak2D;
 import com.sarit.peak_problem.Point2D;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class TestUtility {
 
@@ -20,6 +19,17 @@ public class TestUtility {
         }
 
         return arr;
+    }
+
+    public static int[][] generateRandomMatrix(Random r, int rows, int cols) {
+        int[][] matrix = new int[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = r.nextInt();
+            }
+        }
+
+        return matrix;
     }
 
     public static int[][] generateMatrixWithSinglePeak(int rows, int cols, Point2D peak, int peakValue) {
@@ -39,14 +49,22 @@ public class TestUtility {
                 if (!Point2D.withinBounds(nP, 0, rows - 1, 0, cols - 1)) {
                     if (delY == 1) {
                         delY = -1;
-                        nP = new Point2D(currentPoint.x, currentPoint.y + delY);
+                        delX = -1;
+                        nP = new Point2D(peak.x + delX, peak.y);
 
-                        if (!Point2D.withinBounds(nP, 0, rows - 1, 0, cols - 1))
-                            delX = 0;
+                        if (!Point2D.withinBounds(nP, 0, rows - 1, 0, cols - 1)) {
+                            nP = new Point2D(peak.x, peak.y + delY);
+                            if (!Point2D.withinBounds(nP, 0, rows - 1, 0, cols - 1))
+                                delX = 0;
+                            else
+                                delX = -delX;
+                        }
                     }
                     else
                         delX = 0;
                 }
+                else
+                    delX = -delX;
             }
 
             currentValue -= 1;
