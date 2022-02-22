@@ -17,5 +17,7 @@ public interface MSet {
 
     void build(Iterator<Integer> it);
     Iterator<Integer> iter_set();
+
+    MSet clone();
     
 }

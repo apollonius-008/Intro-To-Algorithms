@@ -41,50 +41,44 @@ public class StaticArray implements MSequence, MSet, MStack {
 
     @Override
     public Integer min() {
-        Integer minE = Integer.MAX_VALUE;
-        for (Integer e : this.arr) {
-            if (e < minE)
-                minE = e;
-        }
-
-        return minE;
+       Integer minE = null;
+       for (int i = 0; i < this.size; i++) {
+           if (minE == null || minE > this.arr[i])
+               minE = this.arr[i];
+       }
+       return minE;
     }
 
     @Override
     public Integer max() {
-        Integer maxE = Integer.MIN_VALUE;
-        for (Integer e : this.arr) {
-            if (e > maxE)
-                maxE = e;
+        Integer maxE = null;
+        for (int i = 0; i < this.size; i++) {
+            if (maxE == null || maxE < this.arr[i])
+                maxE = this.arr[i];
         }
-
         return maxE;
     }
 
     @Override
     public Integer find_next(Integer ele) {
-        Integer next = Integer.MAX_VALUE;
-        for (Integer e : this.arr) {
-            if (e > ele && e < next)
-                next = e;
-        }
+        Integer next = null;
 
-        if (next == Integer.MAX_VALUE && this.find(Integer.MAX_VALUE) == null)
-            return null;
+        for (int i = 0; i < this.size; i++) {
+            if (this.arr[i] > ele && (next == null || next > this.arr[i]))
+                next = this.arr[i];
+        }
 
         return next;
     }
 
     @Override
     public Integer find_prev(Integer ele) {
-        Integer prev = Integer.MIN_VALUE;
-        for (Integer e : this.arr) {
-            if (e < ele && e > prev)
-                prev = e;
-        }
+        Integer prev = null;
 
-        if (prev == Integer.MIN_VALUE && this.find(Integer.MIN_VALUE) == null)
-            return null;
+        for (int i = 0; i < this.size; i++) {
+            if (this.arr[i] < ele && (prev == null || prev < this.arr[i]))
+                prev = this.arr[i];
+        }
 
         return prev;
     }
@@ -97,7 +91,7 @@ public class StaticArray implements MSequence, MSet, MStack {
 
     @Override
     public void delete(Integer e) throws Exception {
-        int index = this.find(e);
+        int index = this.indexOf(e);
         if (index == -1)
             throw new Exception(String.format("Element=%d is not present in the sequence.", e));
         else
@@ -302,8 +296,8 @@ public class StaticArray implements MSequence, MSet, MStack {
     }
 
     @Override
-    public MSequence clone() {
-        MSequence array = null;
+    public StaticArray clone() {
+        StaticArray array = null;
         try {
             array = new StaticArray(this.arr.length);
             Iterator<Integer> iterator = this.iter_seq();

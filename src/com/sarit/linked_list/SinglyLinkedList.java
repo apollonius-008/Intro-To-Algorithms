@@ -2,7 +2,6 @@ package com.sarit.linked_list;
 
 import com.sarit.sequence_set.MSequence;
 import com.sarit.sequence_set.MSet;
-import com.sarit.static_arr.StaticArray;
 
 import java.util.Iterator;
 
@@ -58,76 +57,87 @@ public class SinglyLinkedList implements MSequence, MSet {
 
     @Override
     public Integer find(Integer ele) {
-        Iterator<Integer> it = this.iter_seq();
-        while (it.hasNext()) {
-            Integer x = it.next();
-            if (x.equals(ele))
+        Node temp = this.head;
+        while (temp != null) {
+            if (temp.getData() == ele)
                 return ele;
+            temp = temp.next;
         }
         return null;
     }
 
     @Override
     public Integer min() {
-        Integer minE = Integer.MAX_VALUE;
-        Iterator<Integer> it = this.iter_seq();
-        while (it.hasNext()) {
-            Integer data = it.next();
-            if (data < minE)
-                minE = data;
+        Integer minE = null;
+        Node temp = this.head;
+
+        while (temp != null) {
+            if (minE == null || minE > temp.getData())
+                minE = temp.getData();
+            temp = temp.next;
         }
+
         return minE;
     }
 
     @Override
     public Integer max() {
-        Integer maxE = Integer.MIN_VALUE;
-        Iterator<Integer> it = this.iter_seq();
-        while (it.hasNext()) {
-            Integer data = it.next();
-            if (data > maxE)
-                maxE = data;
+        Integer maxE = null;
+        Node temp = this.head;
+
+        while (temp != null) {
+            if (maxE == null || maxE < temp.getData())
+                maxE = temp.getData();
+            temp = temp.next;
         }
+
         return maxE;
     }
 
     @Override
     public Integer find_next(Integer ele) {
-        Integer next = Integer.MAX_VALUE;
-        Iterator<Integer> it = this.iter_seq();
-        while (it.hasNext()) {
-            Integer x = it.next();
-            if (x > ele && next > x)
-                next = x;
+        Integer next = null;
+
+        Node temp = this.head;
+
+        while (temp != null) {
+            if (temp.data > ele && (next == null || next > temp.getData()))
+                next = temp.getData();
+            temp = temp.next;
         }
+
         return next;
     }
 
     @Override
     public Integer find_prev(Integer ele) {
-        Integer prev = Integer.MIN_VALUE;
-        Iterator<Integer> it = this.iter_seq();
-        while (it.hasNext()) {
-            Integer x = it.next();
-            if (x < ele && prev < x)
-                prev = x;
+        Integer prev = null;
+
+        Node temp = this.head;
+
+        while (temp != null) {
+            if (temp.data < ele && (prev == null || prev < temp.getData()))
+                prev = temp.getData();
+            temp = temp.next;
         }
+
         return prev;
     }
 
     @Override
     public void insert(Integer e) {
-        this.insert_end(e);
+        if (this.find(e) == null)
+            this.insert_end(e);
     }
 
     public int indexOf(Integer e) {
-        Iterator<Integer> it = this.iter_seq();
         int count = 0;
-        while (it.hasNext()) {
-            Integer x = it.next();
-            if (x.equals(e))
+        Node temp = this.head;
+        while (temp != null) {
+            if (temp.getData() == e)
                 return count;
-            count+=1;
+            temp = temp.next;
+            count += 1;
         }
         return -1;
     }
@@ -322,8 +332,8 @@ public class SinglyLinkedList implements MSequence, MSet {
     }
 
     @Override
-    public MSequence clone() {
-        MSequence link = new SinglyLinkedList();
+    public SinglyLinkedList clone() {
+        SinglyLinkedList link = new SinglyLinkedList();
         Iterator<Integer> iterator = this.iter_seq();
         while (iterator.hasNext())
             link.insert_end(iterator.next());

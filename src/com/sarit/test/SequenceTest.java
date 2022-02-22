@@ -203,18 +203,25 @@ public class SequenceTest {
             Random random = new Random(1000);
             MSequence copy = seq.clone();
             new_sequence_has_len_0(copy);
+
             copy = seq.clone();
             test_insert_end(copy, random);
+
             copy = seq.clone();
             test_get_set(copy, random);
+
             copy = seq.clone();
             test_insert_beg(copy, random);
+
             copy = seq.clone();
             test_insert_at(copy, random);
+
             copy = seq.clone();
             test_delete_end(copy, random);
+
             copy = seq.clone();
             test_delete_beg(copy, random);
+
             copy = seq.clone();
             test_delete_at(copy, random);
         });
