@@ -1,15 +1,20 @@
-package com.sarit;
+package com.sarit.static_arr;
 
+import com.sarit.linked_list.SinglyLinkedList;
 import com.sarit.sequence_set.*;
-import com.sarit.sequence_set.Set;
+import com.sarit.stack_queue.*;
+
+import javax.lang.model.type.ArrayType;
 import java.util.*;
 
-public class StaticArray implements Sequence, Set {
+public class StaticArray implements MSequence, MSet, MStack {
 
     private Integer[] arr;
     private Integer size;
 
-    public StaticArray(int initialCapacity) {
+    public StaticArray(int initialCapacity) throws Exception {
+        if (initialCapacity <= 0)
+            throw new Exception(String.format("initialCapacity is positive. initialCapacity=%d", initialCapacity));
         this.arr = new Integer[initialCapacity];
         this.size = 0;
     }
@@ -18,6 +23,7 @@ public class StaticArray implements Sequence, Set {
         return this.size == this.arr.length;
     }
 
+    @Override
     public boolean isEmpty() {
         return this.size == 0;
     }
@@ -108,7 +114,7 @@ public class StaticArray implements Sequence, Set {
 
     @Override
     public Integer get(Integer index) throws IndexOutOfBoundsException {
-        if (index >= this.size)
+        if (index < 0 || index >= this.size)
             throw new IndexOutOfBoundsException(String.format("size=%d, index=%d. 0 <= index < size not satisfied", this.size, index));
         else
             return this.arr[index];
@@ -116,7 +122,7 @@ public class StaticArray implements Sequence, Set {
 
     @Override
     public void set(Integer index, Integer e) throws IndexOutOfBoundsException {
-        if (index >= this.size)
+        if (index < 0 || index >= this.size)
             throw new IndexOutOfBoundsException(String.format("size=%d, index=%d. 0 <= index < size not satisfied", this.size, index));
         else
             this.arr[index] = e;
@@ -149,26 +155,26 @@ public class StaticArray implements Sequence, Set {
         if (e + 1 - s < 0)
             throw new Exception(String.format("s <= e must be true. s=%d, e=%d", s, e));
         else
-            System.arraycopy(this.arr, s, this.arr, s + 1, e + 1 - s);
+            System.arraycopy(this.arr, s, this.arr, s - 1, e + 1 - s);
     }
 
     @Override
     public void insert_beg(Integer e) {
         if (!this.isFull()) {
-            try {
-                this.shiftElementsToRightBy1(0, this.size - 1);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            if (!this.isEmpty()) {
+                try {
+                    this.shiftElementsToRightBy1(0, this.size - 1);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
         else {
             Integer[] temp = new Integer[this.size + 1];
-            for (int i = 0; i < this.size; i++) {
-                temp[i + 1] = this.arr[i];
-            }
+            if (this.size >= 0) System.arraycopy(this.arr, 0, temp, 1, this.size);
             this.arr = temp;
         }
-        this.arr[this.size] = e;
+        this.arr[0] = e;
         this.size += 1;
     }
 
@@ -176,9 +182,7 @@ public class StaticArray implements Sequence, Set {
     public void insert_end(Integer e) {
         if (this.isFull()) {
             Integer[] temp = new Integer[this.size + 1];
-            for (int i = 0; i < this.size; i++) {
-                temp[i] = this.arr[i];
-            }
+            if (this.size >= 0) System.arraycopy(this.arr, 0, temp, 0, this.size);
             this.arr = temp;
         }
 
@@ -187,8 +191,8 @@ public class StaticArray implements Sequence, Set {
     }
 
     @Override
-    public void insert_at(Integer index, Integer e) throws IndexOutOfBoundsException {
-        if (index > this.size)
+    public void insert_at(Integer index, Integer e) throws Exception {
+        if (index < 0 || index > this.size)
             throw new IndexOutOfBoundsException(String.format("size=%d, index=%d. 0 <= index <= size not satisfied", this.size, index));
         else if (index == 0)
             this.insert_beg(e);
@@ -196,16 +200,14 @@ public class StaticArray implements Sequence, Set {
             this.insert_end(e);
         else {
             if (!this.isFull()) {
-                for (int i = this.size; i >= index + 1; i--)
-                    this.arr[i] = this.arr[i - 1];
+                this.shiftElementsToRightBy1(index, this.size - 1);
             }
             else {
                 Integer[] temp = new Integer[this.size + 1];
-                for (int i = 0; i <= index - 1; i++)
-                    temp[i] = this.arr[i];
+                if (index - 1 + 1 >= 0) System.arraycopy(this.arr, 0, temp, 0, index - 1 + 1);
 
-                for (int i = this.size; i >= index + 1; i--)
-                    temp[i] = this.arr[i - 1];
+                if (this.size + 1 - (index + 1) >= 0)
+                    System.arraycopy(this.arr, index + 1 - 1, temp, index + 1, this.size + 1 - (index + 1));
 
                 this.arr = temp;
             }
@@ -218,9 +220,10 @@ public class StaticArray implements Sequence, Set {
     public void delete_beg() throws Exception {
         if (this.isEmpty())
             throw new Exception("Cannot delete from empty array");
+        else if (this.len() == 1)
+            delete_end();
         else {
-            for (int i = 1; i < this.size; i++)
-                this.arr[i - 1] = this.arr[i];
+            this.shiftElementsToLeftBy1(1, this.size - 1);
             this.size -= 1;
         }
     }
@@ -237,9 +240,12 @@ public class StaticArray implements Sequence, Set {
     public void delete_at(Integer index) throws Exception {
         if (this.isEmpty())
             throw new Exception("Cannot delete from empty array");
+        else if (index == 0)
+            delete_beg();
+        else if (index == this.size - 1)
+            delete_end();
         else {
-            for (int i = index + 1; i < this.size; i++)
-                this.arr[i - 1] = this.arr[i];
+            this.shiftElementsToLeftBy1(index + 1, this.size - 1);
             this.size -= 1;
         }
     }
@@ -252,7 +258,23 @@ public class StaticArray implements Sequence, Set {
 
     @Override
     public Iterator<Integer> iter_set() {
-        return null;
+        return new Iterator<Integer>() {
+            private int currentIndex = 0;
+            private Integer currentItem = StaticArray.this.min();
+
+            @Override
+            public boolean hasNext() {
+                return this.currentIndex < StaticArray.this.size;
+            }
+
+            @Override
+            public Integer next() {
+                Integer item = currentItem;
+                currentItem = StaticArray.this.find_next(currentItem);
+                currentIndex += 1;
+                return item;
+            }
+        };
     }
 
     @Override
@@ -270,5 +292,58 @@ public class StaticArray implements Sequence, Set {
                 return StaticArray.this.arr[index++];
             }
         };
+    }
+
+    @Override
+    public void reverse() {
+        for (int i = 0; i < this.size / 2; i++) {
+            this.swap(i, this.size - 1 - i);
+        }
+    }
+
+    @Override
+    public MSequence clone() {
+        MSequence array = null;
+        try {
+            array = new StaticArray(this.arr.length);
+            Iterator<Integer> iterator = this.iter_seq();
+            while (iterator.hasNext())
+                array.insert_end(iterator.next());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return array;
+    }
+
+    public boolean indexInBounds(int index) {
+        return index >= 0 && index < this.size;
+    }
+
+    public void swap(int index1, int index2) throws IndexOutOfBoundsException {
+        if (!this.indexInBounds(index1))
+            throw new IndexOutOfBoundsException(String.format("size=%d, index1=%d. 0 <= index1 < size", this.size, index1));
+        if (!this.indexInBounds(index2))
+            throw new IndexOutOfBoundsException(String.format("size=%d, index2=%d. 0 <= index1 < size", this.size, index2));
+
+        Integer temp = this.arr[index1];
+        this.arr[index1] = this.arr[index2];
+        this.arr[index2] = temp;
+    }
+
+    @Override
+    public void push(int e) {
+        this.insert_end(e);
+    }
+
+    @Override
+    public int pop() throws Exception {
+        int last = this.peek();
+        this.delete_end();
+        return last;
+    }
+
+    @Override
+    public int peek() {
+        return this.arr[this.size - 1];
     }
 }

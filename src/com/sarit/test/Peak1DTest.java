@@ -56,7 +56,6 @@ public class Peak1DTest {
         functions.put("Naive Implementation Recursive", (arr) -> naiveImplementationRecursive(arr, arr.length - 1));
         functions.put("Divide And Conquer", (arr) -> divideAndConquer(arr, 0, arr.length - 1));
 
-
         functions.forEach((name, f) -> {
             long seed = 1000000;
             Random r = new Random(seed);

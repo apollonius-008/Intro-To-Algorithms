@@ -2,7 +2,7 @@ package com.sarit.sequence_set;
 
 import java.util.Iterator;
 
-public interface Set {
+public interface MSet {
 
     Integer len();
     Integer find(Integer ele);

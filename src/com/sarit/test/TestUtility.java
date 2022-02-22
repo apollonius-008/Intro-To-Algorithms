@@ -92,8 +92,29 @@ public class TestUtility {
 
     public static long elapsedTime(AnyFunction function) {
         long start = System.nanoTime();
-        function.run();
+        try {
+            function.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         long end = System.nanoTime();
         return end - start;
+    }
+
+    public static boolean testException(AnyFunction function, Class exception) {
+        Class actualException = null;
+        try {
+            function.run();
+        } catch (Exception e) {
+            actualException = e.getClass();
+        }
+        finally {
+            while (!Object.class.equals(actualException)) {
+                if (exception.equals(actualException))
+                    return true;
+                actualException = actualException.getSuperclass();
+            }
+            return false;
+        }
     }
 }
