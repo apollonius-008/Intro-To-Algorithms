@@ -5,7 +5,7 @@ import com.sarit.stack_queue.*;
 
 import java.util.*;
 
-public class StaticArray implements MSequence, MSet, MStack {
+public class StaticArray implements MSequence, MSet, MStack, MDeque {
 
     private Integer[] arr;
     private Integer size;
@@ -22,13 +22,13 @@ public class StaticArray implements MSequence, MSet, MStack {
     }
 
     @Override
-    public boolean isEmpty() {
-        return this.size == 0;
+    public Integer len() {
+        return this.size;
     }
 
     @Override
-    public Integer len() {
-        return this.size;
+    public boolean isEmpty() {
+        return this.size == 0;
     }
 
     @Override
@@ -218,6 +218,20 @@ public class StaticArray implements MSequence, MSet, MStack {
             this.shiftElementsToLeftBy1(1, this.size - 1);
             this.size -= 1;
         }
+    }
+
+    @Override
+    public Integer getFrontElement() throws Exception {
+        if (this.size == 0)
+            throw new Exception("Cannot get front element from empty queue");
+        return this.arr[0];
+    }
+
+    @Override
+    public Integer getRearElement() throws Exception {
+        if (this.size == 0)
+            throw new Exception("Cannot get rear element from empty queue");
+        return this.arr[this.size - 1];
     }
 
     @Override

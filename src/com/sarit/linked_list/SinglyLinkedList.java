@@ -2,11 +2,12 @@ package com.sarit.linked_list;
 
 import com.sarit.sequence_set.MSequence;
 import com.sarit.sequence_set.MSet;
+import com.sarit.stack_queue.MDeque;
 import com.sarit.stack_queue.MStack;
 
 import java.util.Iterator;
 
-public class SinglyLinkedList implements MSequence, MSet, MStack {
+public class SinglyLinkedList implements MSequence, MSet, MStack, MDeque {
 
     @Override
     public void push(int e) {
@@ -252,6 +253,20 @@ public class SinglyLinkedList implements MSequence, MSet, MStack {
             this.head = this.head.getNext();
             this.size -= 1;
         }
+    }
+
+    @Override
+    public Integer getFrontElement() throws Exception {
+        if (this.head == null)
+            throw new Exception("Cannot get front element from empty queue");
+        return this.head.getData();
+    }
+
+    @Override
+    public Integer getRearElement() throws Exception {
+        if (this.tail == null)
+            throw new Exception("Cannot get tail element from empty queue");
+        return this.tail.getData();
     }
 
     @Override
