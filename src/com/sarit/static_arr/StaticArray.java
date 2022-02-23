@@ -1,10 +1,8 @@
 package com.sarit.static_arr;
 
-import com.sarit.linked_list.SinglyLinkedList;
 import com.sarit.sequence_set.*;
 import com.sarit.stack_queue.*;
 
-import javax.lang.model.type.ArrayType;
 import java.util.*;
 
 public class StaticArray implements MSequence, MSet, MStack {
@@ -330,14 +328,16 @@ public class StaticArray implements MSequence, MSet, MStack {
     }
 
     @Override
-    public int pop() throws Exception {
+    public Integer pop() throws Exception {
         int last = this.peek();
         this.delete_end();
         return last;
     }
 
     @Override
-    public int peek() {
+    public Integer peek() throws Exception {
+        if (this.size == 0)
+            throw new Exception("Cannot perform peek on empty stack");
         return this.arr[this.size - 1];
     }
 }

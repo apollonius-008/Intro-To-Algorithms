@@ -1,7 +1,8 @@
 package com.sarit.stack_queue;
 
 public interface MStack {
+    Integer len();
     void push(int e);
-    int pop() throws Exception;
-    int peek();
+    Integer pop() throws Exception;
+    Integer peek() throws Exception;
 }

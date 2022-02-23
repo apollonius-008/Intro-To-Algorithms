@@ -109,7 +109,7 @@ public class TestUtility {
             actualException = e.getClass();
         }
         finally {
-            while (!Object.class.equals(actualException)) {
+            while (!Object.class.equals(actualException)&&(actualException != null)) {
                 if (exception.equals(actualException))
                     return true;
                 actualException = actualException.getSuperclass();

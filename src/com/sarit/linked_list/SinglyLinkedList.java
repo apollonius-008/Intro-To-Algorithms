@@ -2,10 +2,30 @@ package com.sarit.linked_list;
 
 import com.sarit.sequence_set.MSequence;
 import com.sarit.sequence_set.MSet;
+import com.sarit.stack_queue.MStack;
 
 import java.util.Iterator;
 
-public class SinglyLinkedList implements MSequence, MSet {
+public class SinglyLinkedList implements MSequence, MSet, MStack {
+
+    @Override
+    public void push(int e) {
+        this.insert_end(e);
+    }
+
+    @Override
+    public Integer pop() throws Exception {
+        int data = this.peek();
+        this.delete_end();
+        return data;
+    }
+
+    @Override
+    public Integer peek() throws Exception {
+        if (tail == null)
+            throw new Exception("Cannot perform peek on empty stack");
+        return this.tail.getData();
+    }
 
     private static class Node {
         private int data;
