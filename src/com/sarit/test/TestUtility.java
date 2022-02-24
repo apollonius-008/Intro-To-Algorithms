@@ -74,6 +74,16 @@ public class TestUtility {
         return matrix;
     }
 
+    public static void displayIterator(Iterator<Integer> it) {
+        String output = "[";
+        while (it.hasNext())
+            output = output + it.next() + ", ";
+        if (output.length() > 1)
+            output = output.substring(0, output.length() - 2);
+        output = output + "]";
+        System.out.println(output);
+    }
+
     public static void fillMatrixDFS(int[][] matrix, boolean[][] visited, int rows, int cols, Point2D pos, int value) {
 
         visited[pos.x][pos.y] = true;
