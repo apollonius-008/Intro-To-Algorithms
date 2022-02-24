@@ -31,14 +31,21 @@ public class SinglyLinkedList implements MSequence, MSet, MStack, MDeque {
     private static class Node {
         private int data;
         private Node next;
+        private int id;
+        private static int count;
+        static {
+            count = 0;
+        }
 
         public Node(int data) {
-            this.data = data;
+            this(data, null);
         }
 
         public Node(int data, Node next) {
             this.data = data;
             this.next = next;
+            this.id = Node.count;
+            Node.count += 1;
         }
 
         public int getData() {
@@ -55,6 +62,14 @@ public class SinglyLinkedList implements MSequence, MSet, MStack, MDeque {
 
         public void setNext(Node next) {
             this.next = next;
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "id=" + this.id + ", " +
+                    "data=" + this.data +
+                    '}';
         }
     }
 
@@ -373,5 +388,21 @@ public class SinglyLinkedList implements MSequence, MSet, MStack, MDeque {
         while (iterator.hasNext())
             link.insert_end(iterator.next());
         return link;
+    }
+
+    @Override
+    public String toString() {
+        String output = "SinglyLinkedList{" +
+                "head=" + ((head == null) ? null : head.toString()) +
+                ", tail=" + ((tail == null) ? null : tail.toString()) +
+                ", size=" + size +
+                ", [";
+        Node temp = this.head;
+        while (temp != null) {
+            output = output + temp.toString() + "-> ";
+            temp = temp.getNext();
+        }
+        output = output + "]}";
+        return output;
     }
 }
