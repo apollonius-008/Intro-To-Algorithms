@@ -12,6 +12,14 @@ public class TestUtility {
         return arr;
     }
 
+    public static int[] generateRandomArray(int size, Random r) {
+        int[] arr = new int[size];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = r.nextInt();
+        }
+        return arr;
+    }
+
     public static int[] generateIntArrayInRange(int size, int start, int step) {
         int[] arr = new int[size];
         for (int i = 0; i < size; i++) {
