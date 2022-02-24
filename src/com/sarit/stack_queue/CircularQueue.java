@@ -1,5 +1,7 @@
 package com.sarit.stack_queue;
 
+import java.util.Arrays;
+
 public class CircularQueue implements MDeque {
 
     private int front;
@@ -70,6 +72,16 @@ public class CircularQueue implements MDeque {
 
             this.size -= 1;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "CircularQueue{" +
+                "front=" + front +
+                ", rear=" + rear +
+                ", size=" + size +
+                ", arr=" + Arrays.toString(arr) +
+                '}';
     }
 
     @Override
