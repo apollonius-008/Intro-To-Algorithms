@@ -26,7 +26,7 @@ public class SortingAlgorithmsTest {
                 minTime = time;
         }
 
-        System.out.println(String.format("MAX TIME : %d, MIN TIME : %d, AVERAGE TIME : %d.", maxTime, minTime, totalTime / numExecutions));
+        System.out.println(String.format("MAX TIME : %d ns, MIN TIME : %d ns, AVERAGE TIME : %d ns.", maxTime, minTime, totalTime / numExecutions));
     }
 
     public static void main(String[] args) {
@@ -36,6 +36,8 @@ public class SortingAlgorithmsTest {
 
         functionMap.put("Insertion Sort",
                 SortingAlgorithms::insertion_sort);
+
+        functionMap.put("Merge Sort", (arr) -> SortingAlgorithms.mergeSort(arr, 0, arr.length - 1));
 
         functionMap.forEach((name, f) -> {
             System.out.println("Testing " + name);
@@ -58,7 +60,7 @@ public class SortingAlgorithmsTest {
             f.sort(arr);
             System.out.println(Arrays.toString(arr));
 
-            reportTime(f, 1000, 1000);
+            reportTime(f, 1000, 10000);
         });
     }
 }

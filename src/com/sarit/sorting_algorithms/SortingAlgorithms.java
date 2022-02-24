@@ -38,4 +38,40 @@ public class SortingAlgorithms {
         }
         arr[j + 1] = e;
     }
+
+    public static void mergeSort(int[] arr, int s, int e) {
+        if (s < e) {
+            int mid = (s + e) / 2;
+            mergeSort(arr, s, mid);
+            mergeSort(arr, mid + 1, e);
+            merge(arr, s, mid, e);
+        }
+    }
+
+    public static void merge(int[] arr, int p, int q, int r) {
+        int[] left = new int[q - p + 2];
+        int[] right = new int[r - q + 1];
+
+        for (int i = 0; i < left.length - 1; i++) {
+            left[i] = arr[i + p];
+        }
+        left[left.length - 1] = Integer.MAX_VALUE;
+
+        for (int j = 0; j < right.length - 1; j++) {
+            right[j] = arr[j + q + 1];
+        }
+        right[right.length - 1] = Integer.MAX_VALUE;
+
+        int i = 0, j = 0;
+        for (int k = p; k <= r; k++) {
+            if (left[i] <= right[j]) {
+                arr[k] = left[i];
+                i += 1;
+            }
+            else {
+                arr[k] = right[j];
+                j += 1;
+            }
+        }
+    }
 }
