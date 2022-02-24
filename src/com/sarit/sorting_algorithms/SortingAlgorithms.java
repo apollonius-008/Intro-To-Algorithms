@@ -26,4 +26,16 @@ public class SortingAlgorithms {
         arr[j] = temp;
     }
 
+    public static void insertion_sort(int[] arr) {
+        for (int i = 1; i < arr.length; i++)
+            insert_maintaining_order(arr, i, arr[i]);
+    }
+
+    public static void insert_maintaining_order(int[] arr, int i, int e) {
+        int j;
+        for (j = i - 1; j >= 0 && arr[j] >= e; j--) {
+            arr[j + 1] = arr[j];
+        }
+        arr[j + 1] = e;
+    }
 }

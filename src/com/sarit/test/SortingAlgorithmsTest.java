@@ -34,6 +34,9 @@ public class SortingAlgorithmsTest {
 
         functionMap.put("Selection sort", SortingAlgorithms::selection_sort);
 
+        functionMap.put("Insertion Sort",
+                SortingAlgorithms::insertion_sort);
+
         functionMap.forEach((name, f) -> {
             System.out.println("Testing " + name);
 
