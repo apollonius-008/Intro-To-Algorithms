@@ -235,6 +235,14 @@ public class StaticArray implements MSequence, MSet, MStack, MDeque {
     }
 
     @Override
+    public String toString() {
+        return "StaticArray{" +
+                "arr=" + Arrays.toString(arr) +
+                ", size=" + size +
+                '}';
+    }
+
+    @Override
     public void delete_end() throws Exception{
         if (this.isEmpty())
             throw new Exception("Cannot delete from empty array");
