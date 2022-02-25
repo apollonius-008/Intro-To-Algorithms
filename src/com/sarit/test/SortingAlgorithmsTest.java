@@ -7,8 +7,7 @@ import java.util.*;
 
 public class SortingAlgorithmsTest {
 
-    private static void reportTime(SortingFunction f, int numExecutions, int size) {
-        Random r = new Random(100);
+    private static void reportTime(Random r, SortingFunction f, int numExecutions, int size) {
         long maxTime = Long.MIN_VALUE,
                 minTime = Long.MAX_VALUE,
                 totalTime = 0;
@@ -49,10 +48,18 @@ public class SortingAlgorithmsTest {
 
         functionMap.forEach((name, f) -> {
             System.out.println("Testing " + name);
+            Random r = new Random(100000);
 
-            int[] arr;
+            test_sorting(r, 1, f);
 
-            reportTime(f, 1000, 10000);
+            int numTest = r.nextInt(50) + 20;
+            for (int i = 0; i < numTest; i++)
+                test_sorting(r, 10, f);
+
+            for (int i = 0; i < numTest; i++)
+                test_sorting(r, 1000, f);
+
+            reportTime(r, f, 1000, 10000);
         });
     }
 }
