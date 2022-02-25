@@ -3,6 +3,7 @@ package com.sarit.test;
 import com.sarit.linked_list.SinglyLinkedList;
 
 import com.sarit.sequence_set.MSet;
+import com.sarit.sequence_set.SortedArray;
 import com.sarit.static_arr.StaticArray;
 
 import java.util.*;
@@ -125,8 +126,12 @@ public class SetTest {
         assert TestUtility.testException(()-> s.delete(r.nextInt()), Exception.class) : "cannot delete from empty list";
 
         int numInsert = r.nextInt(100) + 10;
-        for (int i = 0; i < numInsert; i++)
-            s.insert(r.nextInt(1000));
+        for (int i = 0; i < numInsert; i++) {
+            Integer ele = r.nextInt(1000);
+            while (s.find(ele) != null)
+                ele = r.nextInt(1000);
+            s.insert(ele);
+        }
 
         int numEle = s.len();
         for (int i = 0; i < numEle; i++) {
@@ -136,8 +141,10 @@ public class SetTest {
                 ele = num;
             else if (s.find_next(num) != null)
                 ele = s.find_next(num);
-            else
+            else if (s.find_prev(num) != null)
                 ele = s.find_prev(num);
+            else
+                ele = s.max();
 
             int sizeBefore = s.len();
             try {
@@ -159,6 +166,7 @@ public class SetTest {
             e.printStackTrace();
         }
         setList.add(new SinglyLinkedList());
+        setList.add(new SortedArray());
 
         setList.forEach((s) -> {
 
