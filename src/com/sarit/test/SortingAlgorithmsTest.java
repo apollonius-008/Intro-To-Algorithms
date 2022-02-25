@@ -29,6 +29,14 @@ public class SortingAlgorithmsTest {
         System.out.println(String.format("MAX TIME : %d ns, MIN TIME : %d ns, AVERAGE TIME : %d ns.", maxTime, minTime, totalTime / numExecutions));
     }
 
+    private static void test_sorting(Random r, int size, SortingFunction f) {
+        int[] array = TestUtility.generateRandomArray(size, r);
+        int[] cpy = Arrays.copyOf(array, size);
+        f.sort(array);
+        Arrays.sort(cpy);
+        assert Arrays.equals(array, cpy);
+    }
+
     public static void main(String[] args) {
         Map<String, SortingFunction> functionMap = new HashMap<>();
 
@@ -43,22 +51,6 @@ public class SortingAlgorithmsTest {
             System.out.println("Testing " + name);
 
             int[] arr;
-
-            arr = new int[]{1};
-            f.sort(arr);
-            System.out.println(Arrays.toString(arr));
-
-            arr = new int[]{1, 2};
-            f.sort(arr);
-            System.out.println(Arrays.toString(arr));
-
-            arr = new int[]{2, 1};
-            f.sort(arr);
-            System.out.println(Arrays.toString(arr));
-
-            arr = new int[]{1, 3, 5, 4, 2};
-            f.sort(arr);
-            System.out.println(Arrays.toString(arr));
 
             reportTime(f, 1000, 10000);
         });
